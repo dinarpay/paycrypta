@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "965770881953",
+    "firebase_url": "https://paycrypta-aaa8e.firebaseio.com",
+    "project_id": "paycrypta-aaa8e",
+    "storage_bucket": "paycrypta-aaa8e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:965770881953:android:8d4a6d42716dec8193f9e0",
+        "android_client_info": {
+          "package_name": "com.softwareafu.paycrypta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "965770881953-m071ui8qvpmpmt9oens3em2k29bbgdm3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5zROA8Sd0F0bZcpO0pUxRIMFlxx9Nc_w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "965770881953-m071ui8qvpmpmt9oens3em2k29bbgdm3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
