@@ -1,6 +1,6 @@
 # paycrypta
 
-A new Flutter application.
+Better And Creative Way Of Crypto Payments
 
 ## Getting Started
 
