@@ -33,3 +33,9 @@ const kTextFieldDecoration = InputDecoration(
     borderRadius: BorderRadius.all(Radius.circular(32.0)),
   ),
 );
+const kBigtexts = TextStyle(
+    color: Colors.grey,
+    fontWeight: FontWeight.w900,
+    fontStyle: FontStyle.italic,
+    fontFamily: 'Open Sans',
+    fontSize: 40);
