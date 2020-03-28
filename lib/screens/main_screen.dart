@@ -68,7 +68,8 @@ class _MainScreenState extends State<MainScreen> {
       ),
       body: SafeArea(
         child: Column(
-          //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -137,45 +138,39 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ],
             ),
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Text(
-                  'TRANSACTIONS',
-                ),
-                StreamBuilder<QuerySnapshot>(
-                  stream: _firestore.collection('transactions').snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final transactions = snapshot.data.documents;
-                      List<Text> tWidgets = [];
-                      for (var transaction in transactions) {
-                        final sender = transaction.data['sender'];
-                        final receiver = transaction.data['receiver'];
-                        final amount = transaction.data['amount'];
-                        if (sender == loggedInUser.email) {
-                          final tWidget = Text('$amount sent to $receiver');
-                          tWidgets.add(tWidget);
-                        } else if (receiver == loggedInUser.email) {
-                          final tWidget = Text('$amount received from $sender');
-                          tWidgets.add(tWidget);
-                        }
-                      }
-
-                      return Column(mainAxisSize: MainAxisSize.max, children: [
-                        Expanded(
-                          child: ListView(
-                              padding: const EdgeInsets.all(8),
-                              children: tWidgets),
-                        ),
-                      ]);
+            Text(
+              'TRANSACTIONS',
+            ),
+            StreamBuilder<QuerySnapshot>(
+              stream: _firestore.collection('transactions').snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final transactions = snapshot.data.documents;
+                  List<Text> tWidgets = [];
+                  for (var transaction in transactions) {
+                    final sender = transaction.data['sender'];
+                    final receiver = transaction.data['receiver'];
+                    final amount = transaction.data['amount'];
+                    if (sender == loggedInUser.email) {
+                      final tWidget = Text('$amount sent to $receiver');
+                      tWidgets.add(tWidget);
+                    } else if (receiver == loggedInUser.email) {
+                      final tWidget = Text('$amount received from $sender');
+                      tWidgets.add(tWidget);
                     }
-                    return Text(
-                      'There is no transaction made yet',
-                    );
-                  },
-                ),
-              ],
+                  }
+
+                  return Expanded(
+                    child: ListView(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 30.0, vertical: 20.0),
+                        children: tWidgets),
+                  );
+                }
+                return Text(
+                  'There is no transaction made yet',
+                );
+              },
             ),
           ],
         ),
