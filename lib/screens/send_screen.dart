@@ -56,7 +56,7 @@ class _RegistrationScreenState extends State<SendScreen> {
                 newBalance =
                     (double.parse(doc.data['balance']) + double.parse(amount))
                         .toString();
-
+                print('-----$newBalance');
                 _firestore
                     .collection('balance')
                     .document(doc.documentID)

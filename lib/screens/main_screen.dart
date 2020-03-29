@@ -108,10 +108,11 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 0),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
+                Container(),
                 Container(
                   child: FlatButton(
                     child: Icon(
@@ -125,21 +126,9 @@ class _MainScreenState extends State<MainScreen> {
                     },
                   ),
                 ),
-                Container(
-                  child: FlatButton(
-                    child: Icon(
-                      Icons.send,
-                      color: Colors.red,
-                      size: 48.0,
-                      semanticLabel: 'Text to announce in accessibility modes',
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, SendScreen.id);
-                    },
-                  ),
-                ),
               ],
             ),
+            SizedBox(height: 50),
             Text(
               'TRANSACTIONS',
             ),
@@ -157,7 +146,7 @@ class _MainScreenState extends State<MainScreen> {
                       final tWidget = Text('$amount sent to $receiver');
                       tWidgets.add(tWidget);
                     } else if (receiver == loggedInUser.email) {
-                      final tWidget = Text('$amount received from $sender');
+                      final tWidget = Text('$amount received from  $sender');
                       tWidgets.add(tWidget);
                     }
                   }
@@ -165,7 +154,7 @@ class _MainScreenState extends State<MainScreen> {
                   return Expanded(
                     child: ListView(
                         padding: EdgeInsets.symmetric(
-                            horizontal: 30.0, vertical: 20.0),
+                            horizontal: 30.0, vertical: 10.0),
                         children: tWidgets),
                   );
                 }
