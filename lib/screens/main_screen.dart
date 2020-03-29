@@ -5,10 +5,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 import 'package:bip39/bip39.dart' as bip39;
+import 'package:paycrypta/screens/send_screen.dart';
 
 class MainScreen extends StatefulWidget {
   static const String id = 'main_screen';
-
+  static String oldBalance;
   @override
   _MainScreenState createState() => _MainScreenState();
 }
@@ -29,15 +30,15 @@ class _MainScreenState extends State<MainScreen> {
     //getBalance();
   }
 
-//  void getBalance() async {
-//    await for (var snapshot in _firestore.collection('balance').snapshots()) {
-//      for (var balances in snapshot.documents) {
-//        if (balances.data['user'] == loggedInUser.email) {
-//          balance = balances.data['balance'].toString();
-//        }
-//      }
-//    }
-//  }
+  void getBalance() async {
+    await for (var snapshot in _firestore.collection('balance').snapshots()) {
+      for (var balances in snapshot.documents) {
+        if (balances.data['user'] == loggedInUser.email) {
+          balance = balances.data['balance'].toString();
+        }
+      }
+    }
+  }
 
   void getCurrentUser() async {
     try {
@@ -83,6 +84,7 @@ class _MainScreenState extends State<MainScreen> {
                       List<Text> balanceWidgets = [];
                       for (var balance in balances) {
                         final balanceText = balance.data['balance'];
+                        MainScreen.oldBalance = balanceText;
                         final balanceOwner = balance.data['user'];
                         if (balanceOwner == loggedInUser.email) {
                           return Text(
@@ -119,7 +121,7 @@ class _MainScreenState extends State<MainScreen> {
                       semanticLabel: 'Text to announce in accessibility modes',
                     ),
                     onPressed: () {
-                      print('clicked');
+                      Navigator.pushNamed(context, SendScreen.id);
                     },
                   ),
                 ),
@@ -132,7 +134,7 @@ class _MainScreenState extends State<MainScreen> {
                       semanticLabel: 'Text to announce in accessibility modes',
                     ),
                     onPressed: () {
-                      print('clicked');
+                      Navigator.pushNamed(context, SendScreen.id);
                     },
                   ),
                 ),
