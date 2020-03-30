@@ -3,11 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:paycrypta/constants.dart';
 import 'package:paycrypta/components/rounded_button.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:paycrypta/screens/main_screen.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:bitcoin_flutter/bitcoin_flutter.dart';
-import 'package:bip39/bip39.dart' as bip39;
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class SendScreen extends StatefulWidget {
   static const String id = 'send_screen';
@@ -44,6 +41,16 @@ class _RegistrationScreenState extends State<SendScreen> {
             }));
   }
 
+  void addNewTransactionToDataBase() {
+    if (amount != '0') {
+      _firestore.collection('transactions').add({
+        'sender': loggedInUser.email,
+        'receiver': receiver,
+        'amount': amount,
+      });
+    }
+  }
+
   void updateBalanceOfReceiver() {
     String newBalance;
     bool isDone = false;
@@ -56,7 +63,7 @@ class _RegistrationScreenState extends State<SendScreen> {
                 newBalance =
                     (double.parse(doc.data['balance']) + double.parse(amount))
                         .toString();
-                print('-----$newBalance');
+
                 _firestore
                     .collection('balance')
                     .document(doc.documentID)
@@ -64,6 +71,44 @@ class _RegistrationScreenState extends State<SendScreen> {
                 isDone = true;
               }
             }));
+  }
+
+  void showSuccessAlert() {
+    Alert(
+      context: context,
+      type: AlertType.success,
+      title: "Payment Sucessfull",
+      desc: "",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Okay",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          width: 120,
+        )
+      ],
+    ).show();
+  }
+
+  void failAlert() {
+    Alert(
+      context: context,
+      type: AlertType.error,
+      title: "Something Went Wrong",
+      desc: "Please Check It Out",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Okay",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context),
+          width: 120,
+        )
+      ],
+    ).show();
   }
 
   @override
@@ -92,9 +137,10 @@ class _RegistrationScreenState extends State<SendScreen> {
             ),
             Container(
               child: TextField(
+                keyboardType: TextInputType.numberWithOptions(),
                 textAlign: TextAlign.center,
                 onChanged: (value) {
-                  amount = value;
+                  amount = value.toString();
                 },
                 decoration: kTextFieldDecoration.copyWith(
                     hintText: 'How Much BTC will you send?'),
@@ -107,7 +153,7 @@ class _RegistrationScreenState extends State<SendScreen> {
               child: TextField(
                 textAlign: TextAlign.center,
                 onChanged: (value) {
-                  receiver = value;
+                  receiver = value.toString();
                 },
                 decoration: kTextFieldDecoration.copyWith(
                     hintText: 'Enter The Email Of Receiver'),
@@ -118,17 +164,17 @@ class _RegistrationScreenState extends State<SendScreen> {
               title: 'Send',
               onPressed: () async {
                 try {
-                  if (1 == 1) {
-                    updateBalanceOfSender();
+                  double.parse(amount);
+                  if (receiver != null) {
                     updateBalanceOfReceiver();
-                    _firestore.collection('transactions').add({
-                      'sender': loggedInUser.email,
-                      'receiver': receiver,
-                      'amount': amount,
-                    });
+                    updateBalanceOfSender();
+                    addNewTransactionToDataBase();
+                    showSuccessAlert();
                   } else {}
                   setState(() {});
-                } catch (Exception) {}
+                } catch (Exception) {
+                  failAlert();
+                }
               },
             )
           ],
