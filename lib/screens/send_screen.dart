@@ -18,7 +18,7 @@ class _RegistrationScreenState extends State<SendScreen> {
   String amount;
   String balance;
   String receiver;
-
+  bool isAlerted = false;
   void updateBalanceOfSender() async {
     String newBalance;
     bool isDone = false;
@@ -51,7 +51,7 @@ class _RegistrationScreenState extends State<SendScreen> {
     }
   }
 
-  void updateBalanceOfReceiver() {
+  Future<bool> updateBalanceOfReceiver() async {
     String newBalance;
     bool isDone = false;
     _firestore
@@ -68,7 +68,11 @@ class _RegistrationScreenState extends State<SendScreen> {
                     .collection('balance')
                     .document(doc.documentID)
                     .updateData({'balance': newBalance});
+                updateBalanceOfSender();
+                addNewTransactionToDataBase();
+                showSuccessAlert();
                 isDone = true;
+                return true;
               }
             }));
   }
@@ -164,15 +168,20 @@ class _RegistrationScreenState extends State<SendScreen> {
               title: 'Send',
               onPressed: () async {
                 try {
-                  double.parse(amount);
-                  if (receiver != null) {
-                    updateBalanceOfReceiver();
-                    updateBalanceOfSender();
-                    addNewTransactionToDataBase();
-                    showSuccessAlert();
-                  } else {}
+                  if (receiver != null &&
+                      double.parse(MainScreen.oldBalance) >=
+                          double.parse(amount)) {
+                    isAlerted = await updateBalanceOfReceiver();
+                  }
+
+                  if (isAlerted == false) {
+                    failAlert();
+                  } else {
+                    isAlerted = false;
+                  }
                   setState(() {});
                 } catch (Exception) {
+                  print('bura mi');
                   failAlert();
                 }
               },
