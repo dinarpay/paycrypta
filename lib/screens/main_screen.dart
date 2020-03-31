@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:paycrypta/screens/send_screen.dart';
+import 'package:string_scanner/string_scanner.dart';
 
 class MainScreen extends StatefulWidget {
   static const String id = 'main_screen';
@@ -102,7 +103,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 Container(
                   child: Text(
-                    ' BTC',
+                    ' \$',
                     style: kBigtexts,
                   ),
                 ),

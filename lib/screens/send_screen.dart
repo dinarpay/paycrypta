@@ -5,6 +5,7 @@ import 'package:paycrypta/constants.dart';
 import 'package:paycrypta/components/rounded_button.dart';
 import 'package:paycrypta/screens/main_screen.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:paycrypta/components/decimal_input_formatter.dart';
 
 class SendScreen extends StatefulWidget {
   static const String id = 'send_screen';
@@ -30,7 +31,7 @@ class _RegistrationScreenState extends State<SendScreen> {
               if (isDone == false) {
                 newBalance =
                     (double.parse(MainScreen.oldBalance) - double.parse(amount))
-                        .toString();
+                        .toStringAsFixed(2);
 
                 _firestore
                     .collection('balance')
@@ -62,7 +63,7 @@ class _RegistrationScreenState extends State<SendScreen> {
               if (isDone == false) {
                 newBalance =
                     (double.parse(doc.data['balance']) + double.parse(amount))
-                        .toString();
+                        .toStringAsFixed(2);
 
                 _firestore
                     .collection('balance')
@@ -74,6 +75,7 @@ class _RegistrationScreenState extends State<SendScreen> {
                 isDone = true;
                 return true;
               }
+              return false;
             }));
   }
 
@@ -141,10 +143,10 @@ class _RegistrationScreenState extends State<SendScreen> {
             ),
             Container(
               child: TextField(
-                keyboardType: TextInputType.numberWithOptions(),
+                inputFormatters: [DecimalTextInputFormatter(decimalRange: 2)],
                 textAlign: TextAlign.center,
                 onChanged: (value) {
-                  amount = value.toString();
+                  amount = double.parse(value).toStringAsFixed(2);
                 },
                 decoration: kTextFieldDecoration.copyWith(
                     hintText: 'How Much BTC will you send?'),
