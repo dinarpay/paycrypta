@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:paycrypta/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -60,7 +61,7 @@ class _MainScreenState extends State<MainScreen> {
         leading: null,
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.list),
+              icon: Icon(Icons.account_balance_wallet),
               onPressed: () {
                 //Implement logout functionality
               }),
@@ -138,20 +139,32 @@ class _MainScreenState extends State<MainScreen> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   final transactions = snapshot.data.documents;
-                  List<Text> tWidgets = [];
+                  List<TransactionBubble> tWidgets = [];
+                  TransactionBubble tWidget;
                   for (var transaction in transactions) {
                     final sender = transaction.data['sender'];
                     final receiver = transaction.data['receiver'];
                     final amount = transaction.data['amount'];
+
                     if (sender == loggedInUser.email) {
-                      final tWidget = Text('$amount sent to $receiver');
+                      final tWidget = TransactionBubble(
+                        messageText: Text(
+                          '$amount sent to $receiver',
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      );
                       tWidgets.add(tWidget);
                     } else if (receiver == loggedInUser.email) {
-                      final tWidget = Text('$amount received from  $sender');
+                      final tWidget = TransactionBubble(
+                        messageText: Text(
+                          '$amount received from $sender',
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      );
                       tWidgets.add(tWidget);
                     }
                   }
-
+                  print(tWidgets);
                   return Expanded(
                     child: ListView(
                         padding: EdgeInsets.symmetric(
@@ -166,6 +179,25 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class TransactionBubble extends StatelessWidget {
+  final Text messageText;
+
+  TransactionBubble({this.messageText});
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(2.0),
+      child: Material(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Color(0X0FB8ac6d1),
+        child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
+            child: messageText),
       ),
     );
   }

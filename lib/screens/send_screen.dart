@@ -124,7 +124,7 @@ class _RegistrationScreenState extends State<SendScreen> {
         leading: null,
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.list),
+              icon: Icon(Icons.account_balance_wallet),
               onPressed: () {
                 //Implement logout functionality
               }),

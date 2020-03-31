@@ -57,7 +57,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   ),
                 ),
                 ColorizeAnimatedTextKit(
-                  text: ['PayCrypta', 'Pay Bitcoin'],
+                  text: ['PayCrypta', 'Pay Fast'],
                   textStyle: TextStyle(
                     fontSize: 45.0,
                     fontWeight: FontWeight.w900,
