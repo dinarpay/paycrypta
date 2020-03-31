@@ -1,3 +1,3 @@
 # paycrypta
 
-Better And Creative Way Of Crypto Payments
+Better And Creative Way Of Payments
