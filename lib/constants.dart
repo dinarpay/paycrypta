@@ -39,3 +39,9 @@ const kBigtexts = TextStyle(
     fontStyle: FontStyle.italic,
     fontFamily: 'Open Sans',
     fontSize: 40);
+const kBigtexts2 = TextStyle(
+    color: Colors.grey,
+    fontWeight: FontWeight.w900,
+    fontStyle: FontStyle.italic,
+    fontFamily: 'Open Sans',
+    fontSize: 25);

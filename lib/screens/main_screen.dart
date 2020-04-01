@@ -7,10 +7,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:bitcoin_flutter/bitcoin_flutter.dart';
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:paycrypta/screens/send_screen.dart';
+import 'package:paycrypta/screens/wallet_screen.dart';
 import 'package:string_scanner/string_scanner.dart';
 
 class MainScreen extends StatefulWidget {
   static const String id = 'main_screen';
+  static String wallId = '';
   static String oldBalance;
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -23,6 +25,16 @@ FirebaseUser loggedInUser;
 class _MainScreenState extends State<MainScreen> {
   final _auth = FirebaseAuth.instance;
   String balanceString;
+
+  void getWalletAdress() async {
+    await for (var snapshot in _firestore.collection('wallet').snapshots()) {
+      for (var message in snapshot.documents) {
+        if (loggedInUser.email == message.data['user']) {
+          MainScreen.wallId = message.data['hdWallet'].toString();
+        }
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -63,7 +75,8 @@ class _MainScreenState extends State<MainScreen> {
           IconButton(
               icon: Icon(Icons.account_balance_wallet),
               onPressed: () {
-                //Implement logout functionality
+                getWalletAdress();
+                Navigator.pushNamed(context, WalletScreen.id);
               }),
         ],
         title: Text('⚡PayCrypta'),
@@ -133,6 +146,7 @@ class _MainScreenState extends State<MainScreen> {
             SizedBox(height: 50),
             Text(
               'TRANSACTIONS',
+              style: kBigtexts2,
             ),
             StreamBuilder<QuerySnapshot>(
               stream: _firestore.collection('transactions').snapshots(),
@@ -191,7 +205,7 @@ class TransactionBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(2.0),
+      padding: EdgeInsets.all(3.3),
       child: Material(
         borderRadius: BorderRadius.circular(10.0),
         color: Color(0X0FB8ac6d1),

@@ -122,13 +122,6 @@ class _RegistrationScreenState extends State<SendScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: null,
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.account_balance_wallet),
-              onPressed: () {
-                //Implement logout functionality
-              }),
-        ],
         title: Text('⚡PayCrypta'),
         backgroundColor: Colors.lightBlueAccent,
       ),
@@ -149,7 +142,7 @@ class _RegistrationScreenState extends State<SendScreen> {
                   amount = double.parse(value).toStringAsFixed(2);
                 },
                 decoration: kTextFieldDecoration.copyWith(
-                    hintText: 'How Much BTC will you send?'),
+                    hintText: 'How Much Will You Send?'),
               ),
             ),
             SizedBox(
