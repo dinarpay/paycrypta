@@ -19,6 +19,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  bitcoins: ^1.0.2
+  html: ^0.13.3+3
+  http: ^0.12.0
+  bitbox: ^0.0.3
   firebase_core: ^0.4.4+3
   firebase_auth: ^0.15.5+3
   animated_text_kit: ^2.0.0

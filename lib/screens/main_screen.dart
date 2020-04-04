@@ -9,10 +9,16 @@ import 'package:bip39/bip39.dart' as bip39;
 import 'package:paycrypta/screens/send_screen.dart';
 import 'package:paycrypta/screens/wallet_screen.dart';
 import 'package:string_scanner/string_scanner.dart';
+import 'package:bitbox/bitbox.dart' as Bitbox;
+import 'package:bitcoins/bitcoins.dart' as bitcoins;
+import 'package:http/http.dart';
+import 'dart:convert';
 
 class MainScreen extends StatefulWidget {
   static const String id = 'main_screen';
   static String wallId = '';
+  static String wallBalance = '';
+  static String usdPrice = '';
   static String oldBalance;
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -25,6 +31,20 @@ FirebaseUser loggedInUser;
 class _MainScreenState extends State<MainScreen> {
   final _auth = FirebaseAuth.instance;
   String balanceString;
+  void getWalletBalance() async {
+    var client = Client();
+    Response response = await client.get(
+        'https://blockchain.info/q/addressbalance/1ME1W1yZ7kqEZRrjiESLgusayADAVxB4A1');
+    MainScreen.wallBalance = jsonDecode(response.body).toString();
+  }
+
+  void getUsdPrice() async {
+    var client = Client();
+    Response response =
+        await client.get('https://www.blockonomics.co/api/price?currency=USD');
+    jsonDecode(response.body);
+    MainScreen.usdPrice = jsonDecode(response.body)['price'].toString();
+  }
 
   void getWalletAdress() async {
     await for (var snapshot in _firestore.collection('wallet').snapshots()) {
@@ -76,6 +96,8 @@ class _MainScreenState extends State<MainScreen> {
               icon: Icon(Icons.account_balance_wallet),
               onPressed: () {
                 getWalletAdress();
+                getWalletBalance();
+                getUsdPrice();
                 Navigator.pushNamed(context, WalletScreen.id);
               }),
         ],

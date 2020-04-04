@@ -45,6 +45,29 @@ class _RegistrationScreenState extends State<WalletScreen> {
                     }),
               ],
             ),
+            Text(
+              'Wallet Satoshis:' + MainScreen.wallBalance,
+              style: TextStyle(fontSize: 19.0),
+            ),
+            Text('BTC Price In Usd:' + MainScreen.usdPrice,
+                style: TextStyle(fontSize: 19.0)),
+            FlatButton(
+              child: Text('Convert It To Usd'),
+              onPressed: () {},
+            ),
+            TextField(
+              keyboardType: TextInputType.emailAddress,
+              textAlign: TextAlign.center,
+              onChanged: (value) {
+                //Do something with the user input.
+              },
+              decoration: kTextFieldDecoration.copyWith(
+                  hintText: 'Enter Your BTC Wallet'),
+            ),
+            FlatButton(
+              child: Text('Withdraw Your BTC'),
+              onPressed: () {},
+            ),
           ],
         ),
       ),
