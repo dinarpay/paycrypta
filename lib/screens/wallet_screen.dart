@@ -15,6 +15,8 @@ class WalletScreen extends StatefulWidget {
   _RegistrationScreenState createState() => _RegistrationScreenState();
 }
 
+void makeTransaction(String pubKey) {}
+
 class _RegistrationScreenState extends State<WalletScreen> {
   @override
   Widget build(BuildContext context) {
@@ -51,10 +53,23 @@ class _RegistrationScreenState extends State<WalletScreen> {
             ),
             Text('BTC Price In Usd:' + MainScreen.usdPrice,
                 style: TextStyle(fontSize: 19.0)),
+            SizedBox(height: 50),
+            TextField(
+              keyboardType: TextInputType.emailAddress,
+              textAlign: TextAlign.center,
+              onChanged: (value) {
+                //Do something with the user input.
+              },
+              decoration:
+                  kTextFieldDecoration.copyWith(hintText: 'Enter The Amount'),
+            ),
             FlatButton(
               child: Text('Convert It To Usd'),
-              onPressed: () {},
+              onPressed: () {
+                makeTransaction("37bQoho6ZJRVn8VraEwxp3evowa2EohsWB");
+              },
             ),
+            SizedBox(height: 50),
             TextField(
               keyboardType: TextInputType.emailAddress,
               textAlign: TextAlign.center,
@@ -66,7 +81,9 @@ class _RegistrationScreenState extends State<WalletScreen> {
             ),
             FlatButton(
               child: Text('Withdraw Your BTC'),
-              onPressed: () {},
+              onPressed: () {
+                //Transaction to his address
+              },
             ),
           ],
         ),

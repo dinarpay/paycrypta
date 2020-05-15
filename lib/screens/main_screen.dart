@@ -61,7 +61,10 @@ class _MainScreenState extends State<MainScreen> {
     // TODO: implement initState
     super.initState();
     getCurrentUser();
-    //getBalance();
+    getBalance();
+    getWalletAdress();
+    getWalletBalance();
+    getUsdPrice();
   }
 
   void getBalance() async {
